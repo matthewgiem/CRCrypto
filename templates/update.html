@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style='text-align: center;'>Update CR Price</h1>
+
+    <form action="/update/{{value.id}}" method="POST">
+        <p>price</p><input type="text" name="update_price" id="update_price", value='{{value.price}}'>
+        <p>coins</p><input type="text" name="update_coins" id="update_coins", value='{{value.currency}}'>
+        <!-- <p>date</p><input type="datetime" name="update_datetime" id="update_datetime", value='{{value.date_created}}'> -->
+        <input type="submit" value="Update Values">
+    </form>
+</div>
+{% endblock %}

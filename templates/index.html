@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style='text-align: center;'>CR Price</h1>
+    <table>
+        <tr>
+            <th>Price</th>
+            <th>Principle</th>
+            <th>Actions</th>
+            <th>Date</th>
+        </tr>
+        {% for value in values %}
+            <tr>
+                <td>{{ value.price }}</td>
+                <td>{{ value.currency }}</td>
+                <td>
+                    <a href="/delete/{{value.id}}">Delete</a>
+                    <br>
+                    <a href="/update/{{value.id}}">Update</a>
+                </td>
+                <td>{{ value.date_created }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <form action="/" method="POST">
+        <p>price</p><input type="text" name="add_price" id="add_price">
+        <p>coins</p><input type="text" name="add_coins" id="add_coins">
+        <input type="submit" value="Add Values">
+    </form>
+</div>
+{% endblock %}
