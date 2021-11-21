@@ -38,10 +38,29 @@ def index():
         except:
             return 'there was an issue adding your values'
     else:
-        values = CRypto.query.order_by(CRypto.date_created).all()
-        return render_template('index.html', values=values)
+        data = CRypto.query.order_by(CRypto.date_created).all()
+        values = []
+        first = 0
+        date = 0
+        original_date_value = 0
+        original_time_value = 0
 
-@app.route('/delete/<int:id>')
+        for x in data: 
+            if first == 0:
+                first = x.currency
+                values.append([x, 0])
+                date = x.date_created
+                original_date_value = x.currency
+                original_time_value = x.date_created
+
+            else:
+                timedelta = ((x.date_created - date).seconds + 24*60*60*(x.date_created - date).days)/(24*60*60)
+                values.append([x, ((((x.currency-first)/timedelta)*365)/first)*100])
+                date = x.date_created
+                first = x.currency  
+        return render_template('index.html', values=values, original_value = original_date_value, original_time =original_time_value)
+
+@app.route('/delete/<int:id>', methods=["POST","GET"])
 def delete(id):
     values_to_delete = CRypto.query.get_or_404(id)
 
