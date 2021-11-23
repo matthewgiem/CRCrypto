@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import datetime
 from sqlalchemy.sql import func
 from sqlalchemy.sql.functions import current_user
+import numpy as np
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -44,20 +45,30 @@ def index():
         date = 0
         original_date_value = 0
         original_time_value = 0
+        dont_change_percent_value = 0
+        dont_change_date = 0
+        break_even = 8000
 
         for x in data: 
             if first == 0:
                 first = x.currency
-                values.append([x, 0])
+                values.append([x, 0, 0, 0])
                 date = x.date_created
                 original_date_value = x.currency
                 original_time_value = x.date_created
+                dont_change_percent_value = x.currency
+                dont_change_date = x.date_created
 
             else:
                 timedelta = ((x.date_created - date).seconds + 24*60*60*(x.date_created - date).days)/(24*60*60)
-                values.append([x, ((((x.currency-first)/timedelta)*365)/first)*100])
+                dont_change_timedelta = ((x.date_created - dont_change_date).seconds + 24*60*60*(x.date_created - dont_change_date).days)/(24*60*60)
+                values.append([x, 
+                ((((x.currency-first)/timedelta)*365)/first)*100, 
+                ((((x.currency-dont_change_percent_value)/dont_change_timedelta)*365)/dont_change_percent_value)*100,
+                (np.log(8000/(x.currency * x.price))/((((x.currency-dont_change_percent_value)/dont_change_timedelta)*365)/dont_change_percent_value))])
                 date = x.date_created
-                first = x.currency  
+                first = x.currency
+
         return render_template('index.html', values=values, original_value = original_date_value, original_time =original_time_value)
 
 @app.route('/delete/<int:id>', methods=["POST","GET"])

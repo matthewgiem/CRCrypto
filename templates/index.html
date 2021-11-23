@@ -14,9 +14,9 @@
             <th>Actions</th>
             <th>Date</th>
             <th>value</th>
-            <th>percent coin anual increase</th>
-            <th>fuck</th>
-            <th>double fuck</th>
+            <th>% coin increase</th>
+            <th>total % increase</th>
+            <th>years to break even</th>
         </tr>
         {% for value in values %}
             <tr>
@@ -29,9 +29,9 @@
                 </td>
                 <td>{{ value[0].date_created }}</td>
                 <td>{{ (value[0].price * value[0].currency)|round(2, 'floor') }}</td>
-                <td>{{value[1]}}</td>
-                <td>{{value[0].currency - original_value}}</td>
-                <td>{{(value[0].date_created - original_time).seconds + (value[0].date_created - original_time).days*(24*60*60)}}</td>
+                <td>{{value[1]|round(2, 'floor')}}</td>
+                <td>{{value[2]|round(2, 'floor')}}</td>
+                <td>{{value[3]|round(2, 'floor')}}</td>
         {% endfor %}
             </tr>
     </table>
