@@ -23,9 +23,9 @@
                 <td>{{ value[0].price }}</td>
                 <td>{{ value[0].currency }}</td>
                 <td>
-                    <a href="/delete/{{value.id}}">Delete</a>
+                    <a href="/delete/{{value[0].id}}">Delete</a>
                     <br>
-                    <a href="/update/{{value.id}}">Update</a>
+                    <a href="/update/{{value[0].id}}">Update</a>
                 </td>
                 <td>{{ value[0].date_created }}</td>
                 <td>{{ (value[0].price * value[0].currency)|round(2, 'floor') }}</td>
